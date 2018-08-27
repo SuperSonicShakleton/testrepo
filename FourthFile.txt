@@ -1,1 +1,134 @@
-first Line
+Creating a new project “cookbook” to follow along:
+
+cookbook> git init
+
+- to see the files and folders in the project
+cookbook> git status
+
+- to stage files for a commit
+cookbook> git add <filename>
+git add menu.txt
+Or
+cookbook> git add < dir name>
+git add recipes/
+
+- to see files that are staged (ie ready to be committed)
+cookbook> git status
+
+- to issue a commit with a message
+cookbook> git commit -m “First Commit”
+
+- check the staging area (it should show no files to be committed)
+cookbook> git status
+
+- to see the list of existing commits
+cookbook> git log
+
+- to see the content of the commit
+Cookbook> git cat-file -p <committ’s hash value>
+
+- If changes are made to a file
+- check status first to confirm there pending file(s) to be committed
+- then stage the modified files
+- then issue a commit
+- check commit has occurred by issuing log command
+cookbook> git status
+cookbook> git add <filename>
+cookbook>git add menu.txt
+cookbook> git commit -m <message>
+cookbook>git commit -m “added cake”
+cookbook> git log
+
+- to check how many object are present in a git project
+cookbook> git count-objects
+
+- to create an annotated tag
+cookbook> git tag -a mytag -m “first annotated tag”
+
+- to check tag name
+cookbook> git tag
+
+- to check contents of the tag (it can check based on tag name too)
+cookbook> git cat-file -p mytag
+
+To Check for branches:
+cookbook> git branch	
+
+To see the contents in the brach file (master):
+cookbook> cat .git/refs/heads/master
+
+To create a new branch:
+cookbook> git branch <branchname>
+cookbook> git branch Lisa
+
+- if changes are made to a file now
+- check status first to confirm there pending file(s) to be committed
+- then stage the modified files
+- then issue a commit
+- issue a log command and note the hash value
+- verify the master branch is referencing new commit
+- confirm HEAD is pointing to master
+
+cookbook> git status
+cookbook> git add <filename>
+cookbook>git add recipes/menu.txt
+cookbook> git commit -m <message>
+cookbook>git commit -m “added recipe”
+cookbook> git log
+cookbook> cat .git/refs/heads/master
+cookbook> cat .git/HEAD
+
+- Changing current branch
+- issue the checkout command
+- verify the head is pointing to the new branch
+- issue log command and verify latest commit is same as in new branch file
+- confirm contents of the file that has changed, if possible
+ 
+cookbook> git checkout <branchname>
+cookbook> git .git/HEAD
+cookbook> git log
+cookbook> cat .git/refs/heads/<branchname>
+cookbook> cat recipes/apple_pie.txt
+
+- make changes to a file (current branch is new branch not master)
+- issue status command verify there are pending changes to be staged
+- issue add command to stage the changed files
+- issue commit
+- issue log command to see new commit’s hash value
+- open .git/refs/heads/<branchname> to confirm it has the same has value as the latest commit
+- verify HEAD is point to <branchname>
+
+cookbook>git status
+cookbook>git add recipes/apple_pie.txt
+cookbook>git commit -m “sample message”
+cookbook>git log
+cookbook>cat .git/refs/heads/<branchname>
+cookbook>cat .git/HEAD
+
+To Merge:
+========
+- lets merge 2 branches master and Lisa
+- HEAD is pointing to master
+- to merge with Lisa
+cookbook> git merge lisa
+
+- if there was no conflict merge is complete
+
+-if there is a conflict 
+- issue git status to find the conflict
+- correct the contents of the file manually
+- stage the modified file
+- commit the modified file (without message, git will prompt a default message, accept it)
+- this completes the merge
+- issue log command to see the new hash value
+- issue cat-file to see the contents of the commit, verify that it has 2 parents
+- A merge has 2 parents (regular commit as 1 parent)
+
+cookbook> git status
+<manual correction of conflict file, via vi or notepad or ide…etc>
+cookbook> git add <filename>
+cookbook>git commit
+cookbook>git log
+cookbook>git cat-file -p <new commit’s hash value>
+
+
