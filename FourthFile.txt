@@ -1,3 +1,24 @@
+Commands:
+
+- gitdemo is an sample directory where git repo is being created
+- To start a git project got the directory where git repo needs to be created.
+gitdemo> git init
+
+- to persist the key (SHA1 hash) value (content) in git
+gitdemo>  echo “Hello World” | git hash-object --stdin -w
+1397e058de953666d69b91f6bde15a049d92d145
+
+- to peek into git (this opens a file manager or finder window in Mac)
+gitdemo> open .git 
+
+- to see the type of file created
+gitdemo> git cat-file 1397e058de953666d69b91f6bde15a049d92d145 -t 
+blob
+
+To print the content of the file (p=pretty print)
+gitdemo> git cat-file 1397e058de953666d69b91f6bde15a049d92d145 -p
+“Hello World”
+==========================
 Creating a new project “cookbook” to follow along:
 
 cookbook> git init
@@ -23,6 +44,10 @@ cookbook> git status
 
 - to see the list of existing commits
 cookbook> git log
+
+- to see the last 2 commits
+cookbook> git log -2
+
 
 - to see the content of the commit
 Cookbook> git cat-file -p <committ’s hash value>
@@ -131,4 +156,83 @@ cookbook>git commit
 cookbook>git log
 cookbook>git cat-file -p <new commit’s hash value>
 
+Fast-Forward:
+===============
+- when a merge is done from or to a branch to which there is already merge
+- in the case of Fast-Forward git just moves the branch and head references to latest commit
 
+Detached Head scenario:
+===================
+- when the HEAD is referencing a commit directly and the commit is not referenced by a branch, it is a detached head scenario
+- To get into detached HEAD situation following things need to be done:
+1. issue a git log command so that commit’s has values can be see
+2. Checkout using hash value of the commit (git checkout <hash value>)
+3. At this point the HEAD is referencing the commit and not the branch
+4. Make changes to a file
+5. Stage the files (git add)
+6. Commit the changes (git commit -m <message>)
+7. The HEAD moves to the new commit and the HEAD is detached (DETACHED HEAD)
+- at this point we have 2 options 
+1. loose the changes: Move the HEAD towards a branch (git checkout <branchname>) and the changes will be garbage collected at some point
+2. persist the changes: create a new brach (git branch <branchname>) for the commit referenced by detached HEAD
+
+3 simple rules:
+============
+1. Current branch tracks new commits (git commit or git merge moves the current brach to that commit, in detached head situation head moves to the new commit)
+2. When you move to a commit (git checkout <branchname>), git replaces your working directory with the git objects reference by the new commit. 
+3. Unreachable objects (blob, tree, commit or tag) that cannot be reached by a branch, head or tag is considered dead and will be garbage collected
+
+
+Rebasing:
+============
+- rebase unifies 2 diverging branches
+- it is similar to merge but different: merge has 2 parents after merge where as rebase has 1 parent after rebase
+- to rebase
+> git rebase <branchname>
+
+Tags:
+=====
+- tags are like branches that never move
+- there are 2 types of tags
+
+- annotated tags (these are git objects)
+>git tag -a <tagname>
+
+- lite-weight tags (not git objects)
+>git tag <tagname>
+
+- to see the info in tags
+>cat .git/refs/tags/<tagname>
+
+Distributed Version control (ie local and remote git):
+=======================================================
+- to clone a project from remote to local
+> git clone <url for the repo>
+
+- to see the config file
+> cat .git/config
+- the config files shows remote brach and local branch info and how they map to each other 
+
+- to see all the branches	(local and remote)
+>git branch —-all
+
+- to see all branches which have master in their name
+> git show-ref master
+
+- if you want push the changes from local to remote
+- check which commits the local and remote branches are pointing to 
+>git show-ref master
+- if they are different that mean there changes to be pushed to remote
+>git push
+>git show-ref master (to verify the both branches have same hash value)
+
+- it is recommended that you always sync up your local repo with remote prior to pushing the changes
+- this way if there are conflicts they can be resolved on you local repo and not mess up the remote repo
+- the steps are git fetch, git merge and then git push
+- git fetch + git merge = git pull
+- so the steps are git pull and then git push
+
+> git pull
+> git push
+
+- import point to note: never rebase commits that were already pushed to remote repo
