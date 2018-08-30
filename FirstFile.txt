@@ -1,3 +1,42 @@
-First Line
-Second Line
-Third Line
+- dry run: what will be created where without actually creating them
+$ ng g m material --dry-run
+ create src/app/material/material.module.ts (192 bytes)
+
+NOTE: Run with "dry run" no changes were made.
+
+$ ng g m shared/material --dry-run
+  create src/app/shared/material/material.module.ts (192 bytes)
+
+NOTE: Run with "dry run" no changes were made
+
+- to flatten, ie don't want “material” folder after “shared”:
+$ ng g m shared/material --dry-run --flat
+  create src/app/shared/material.module.ts (192 bytes)
+
+NOTE: Run with "dry run" no changes were made.
+
+- once satisfied create the module as follows:
+$ ng g m shared/material --flat
+  create src/app/shared/material.module.ts (192 bytes)
+
+- create a demo and demo-routing module
+
+$ ng g m demo/demo --dry-run --flat --routing
+  create src/app/demo/demo-routing.module.ts (247 bytes)
+  create src/app/demo/demo.module.ts (271 bytes)
+
+NOTE: Run with "dry run" no changes were made.
+
+$ ng g m demo/demo --flat --routing
+  create src/app/demo/demo-routing.module.ts (247 bytes)
+  create src/app/demo/demo.module.ts (271 bytes)
+
+- create a buttons component with no spec and inline template and css
+$ ng g c demo/buttons --dry-run --no-spec --inline-style --inline-template
+  create src/app/demo/buttons/buttons.component.ts (259 bytes)
+  update src/app/demo/demo.module.ts (351 bytes)
+
+NOTE: Run with "dry run" no changes were made.
+$ ng g c demo/buttons --no-spec --inline-style --inline-template
+  create src/app/demo/buttons/buttons.component.ts (259 bytes)
+  update src/app/demo/demo.module.ts (351 bytes)
